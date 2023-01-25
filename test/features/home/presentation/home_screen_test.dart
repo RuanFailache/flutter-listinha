@@ -12,6 +12,8 @@ class MockHomeCubit extends MockCubit<HomeState> implements HomeCubit {}
 
 class HomeFakeState extends Fake implements HomeState {}
 
+class HomeUnexpectedState extends HomeState {}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -82,6 +84,46 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(HomeSuccessView), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Should render HomeErrorView on HomeErrorState',
+    (WidgetTester tester) async {
+      when(() => mockHomeCubit.state).thenReturn(HomeErrorState());
+
+      await tester.pumpWidget(
+        BlocProvider<HomeCubit>(
+          create: (context) => mockHomeCubit,
+          child: const MaterialApp(
+            home: HomeScreen(),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.byType(HomeErrorView), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Should render HomeErrorView on any unexpected state',
+    (WidgetTester tester) async {
+      when(() => mockHomeCubit.state).thenReturn(HomeUnexpectedState());
+
+      await tester.pumpWidget(
+        BlocProvider<HomeCubit>(
+          create: (context) => mockHomeCubit,
+          child: const MaterialApp(
+            home: HomeScreen(),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.byType(HomeErrorView), findsOneWidget);
     },
   );
 }

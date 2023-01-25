@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
             return const HomeSuccessView();
           }
 
-          throw UnimplementedError();
+          return const HomeErrorView();
         },
       ),
     );
