@@ -1,12 +1,42 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:listinha/features/home/presentation/home_screen.dart';
+import 'package:listinha/features/home/presentation/widgets/widgets.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 
+import 'package:listinha/features/home/presentation/bloc/bloc.dart';
+
+import 'home_screen_test.mocks.dart';
+
+@GenerateMocks([HomeBloc])
 void main() {
+  late MockHomeBloc bloc;
+
+  setUp(() {
+    bloc = MockHomeBloc();
+  });
+
   group(
     'HomeScreen behavior in all HomeStatus',
     () {
       testWidgets(
         'Should render HomeEmptyView when HomeStatus.initial',
-        (WidgetTester tester) async {},
+        (WidgetTester tester) async {
+          when(bloc.state).thenReturn(HomeState.initialState);
+
+          await tester.pumpWidget(
+            MaterialApp(
+              home: BlocProvider(
+                create: (context) => bloc,
+                child: const HomeScreen(),
+              ),
+            ),
+          );
+
+          expect(find.byType(HomeEmptyView), findsOneWidget);
+        },
       );
 
       testWidgets(
