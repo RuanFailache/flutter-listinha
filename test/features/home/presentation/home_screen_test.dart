@@ -27,103 +27,108 @@ void main() {
     mockHomeCubit = MockHomeCubit();
   });
 
-  testWidgets(
-    'Should render HomeEmptyView on HomeInitialState',
-    (WidgetTester tester) async {
-      when(() => mockHomeCubit.state).thenReturn(HomeInitialState());
+  group(
+    'HomeScreen behavior on HomeState',
+    () {
+      testWidgets(
+        'Should render HomeEmptyView on HomeInitialState',
+        (WidgetTester tester) async {
+          when(() => mockHomeCubit.state).thenReturn(HomeInitialState());
 
-      await tester.pumpWidget(
-        BlocProvider<HomeCubit>(
-          create: (context) => mockHomeCubit,
-          child: const MaterialApp(
-            home: HomeScreen(),
-          ),
-        ),
+          await tester.pumpWidget(
+            BlocProvider<HomeCubit>(
+              create: (context) => mockHomeCubit,
+              child: const MaterialApp(
+                home: HomeScreen(),
+              ),
+            ),
+          );
+
+          await tester.pumpAndSettle();
+
+          expect(find.byType(HomeEmptyView), findsOneWidget);
+        },
       );
 
-      await tester.pumpAndSettle();
+      testWidgets(
+        'Should render HomeLoadingView on HomeLoadingState',
+        (WidgetTester tester) async {
+          when(() => mockHomeCubit.state).thenReturn(HomeLoadingState());
 
-      expect(find.byType(HomeEmptyView), findsOneWidget);
-    },
-  );
+          await tester.pumpWidget(
+            BlocProvider<HomeCubit>(
+              create: (context) => mockHomeCubit,
+              child: const MaterialApp(
+                home: HomeScreen(),
+              ),
+            ),
+          );
 
-  testWidgets(
-    'Should render HomeLoadingView on HomeLoadingState',
-    (WidgetTester tester) async {
-      when(() => mockHomeCubit.state).thenReturn(HomeLoadingState());
+          await tester.pumpAndSettle();
 
-      await tester.pumpWidget(
-        BlocProvider<HomeCubit>(
-          create: (context) => mockHomeCubit,
-          child: const MaterialApp(
-            home: HomeScreen(),
-          ),
-        ),
+          expect(find.byType(HomeLoadingView), findsOneWidget);
+        },
       );
 
-      await tester.pumpAndSettle();
+      testWidgets(
+        'Should render HomeSuccessView on HomeSuccessState',
+        (WidgetTester tester) async {
+          when(() => mockHomeCubit.state).thenReturn(HomeSuccessState());
 
-      expect(find.byType(HomeLoadingView), findsOneWidget);
-    },
-  );
+          await tester.pumpWidget(
+            BlocProvider<HomeCubit>(
+              create: (context) => mockHomeCubit,
+              child: const MaterialApp(
+                home: HomeScreen(),
+              ),
+            ),
+          );
 
-  testWidgets(
-    'Should render HomeSuccessView on HomeSuccessState',
-    (WidgetTester tester) async {
-      when(() => mockHomeCubit.state).thenReturn(HomeSuccessState());
+          await tester.pumpAndSettle();
 
-      await tester.pumpWidget(
-        BlocProvider<HomeCubit>(
-          create: (context) => mockHomeCubit,
-          child: const MaterialApp(
-            home: HomeScreen(),
-          ),
-        ),
+          expect(find.byType(HomeSuccessView), findsOneWidget);
+        },
       );
 
-      await tester.pumpAndSettle();
+      testWidgets(
+        'Should render HomeErrorView on HomeErrorState',
+        (WidgetTester tester) async {
+          when(() => mockHomeCubit.state).thenReturn(HomeErrorState());
 
-      expect(find.byType(HomeSuccessView), findsOneWidget);
-    },
-  );
+          await tester.pumpWidget(
+            BlocProvider<HomeCubit>(
+              create: (context) => mockHomeCubit,
+              child: const MaterialApp(
+                home: HomeScreen(),
+              ),
+            ),
+          );
 
-  testWidgets(
-    'Should render HomeErrorView on HomeErrorState',
-    (WidgetTester tester) async {
-      when(() => mockHomeCubit.state).thenReturn(HomeErrorState());
+          await tester.pumpAndSettle();
 
-      await tester.pumpWidget(
-        BlocProvider<HomeCubit>(
-          create: (context) => mockHomeCubit,
-          child: const MaterialApp(
-            home: HomeScreen(),
-          ),
-        ),
+          expect(find.byType(HomeErrorView), findsOneWidget);
+        },
       );
 
-      await tester.pumpAndSettle();
+      testWidgets(
+        'Should render HomeErrorView on any unexpected state',
+        (WidgetTester tester) async {
+          when(() => mockHomeCubit.state).thenReturn(HomeUnexpectedState());
 
-      expect(find.byType(HomeErrorView), findsOneWidget);
-    },
-  );
+          await tester.pumpWidget(
+            BlocProvider<HomeCubit>(
+              create: (context) => mockHomeCubit,
+              child: const MaterialApp(
+                home: HomeScreen(),
+              ),
+            ),
+          );
 
-  testWidgets(
-    'Should render HomeErrorView on any unexpected state',
-    (WidgetTester tester) async {
-      when(() => mockHomeCubit.state).thenReturn(HomeUnexpectedState());
+          await tester.pumpAndSettle();
 
-      await tester.pumpWidget(
-        BlocProvider<HomeCubit>(
-          create: (context) => mockHomeCubit,
-          child: const MaterialApp(
-            home: HomeScreen(),
-          ),
-        ),
+          expect(find.byType(HomeErrorView), findsOneWidget);
+        },
       );
-
-      await tester.pumpAndSettle();
-
-      expect(find.byType(HomeErrorView), findsOneWidget);
     },
   );
 }
