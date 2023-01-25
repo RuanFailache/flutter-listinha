@@ -5,7 +5,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:listinha/features/home/presentation/bloc/bloc.dart';
-import 'package:listinha/features/home/presentation/widgets/widgets.dart';
+import 'package:listinha/features/home/presentation/views/views.dart';
 import 'package:listinha/features/home/presentation/home_screen.dart';
 
 class MockHomeCubit extends MockCubit<HomeState> implements HomeCubit {}
@@ -62,6 +62,26 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(HomeLoadingView), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Should render HomeSuccessView on HomeSuccessState',
+    (WidgetTester tester) async {
+      when(() => mockHomeCubit.state).thenReturn(HomeSuccessState());
+
+      await tester.pumpWidget(
+        BlocProvider<HomeCubit>(
+          create: (context) => mockHomeCubit,
+          child: const MaterialApp(
+            home: HomeScreen(),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.byType(HomeSuccessView), findsOneWidget);
     },
   );
 }

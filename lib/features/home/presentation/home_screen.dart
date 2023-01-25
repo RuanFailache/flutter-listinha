@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bloc/bloc.dart';
-import 'widgets/widgets.dart';
+import 'views/views.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -18,6 +18,10 @@ class HomeScreen extends StatelessWidget {
 
           if (state is HomeLoadingState) {
             return const HomeLoadingView();
+          }
+
+          if (state is HomeSuccessState) {
+            return const HomeSuccessView();
           }
 
           throw UnimplementedError();
