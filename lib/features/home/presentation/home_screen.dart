@@ -12,16 +12,12 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
-          if (state is HomeInitialState) {
-            return const HomeEmptyView();
-          }
-
-          if (state is HomeLoadingState) {
+          if (state is HomeInitialState || state is HomeLoadingState) {
             return const HomeLoadingView();
           }
 
           if (state is HomeSuccessState) {
-            return const HomeSuccessView();
+            return const HomePopulatedView();
           }
 
           return const HomeErrorView();

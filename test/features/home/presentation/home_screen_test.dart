@@ -31,7 +31,7 @@ void main() {
     'HomeScreen behavior on HomeState',
     () {
       testWidgets(
-        'Should render HomeEmptyView on HomeInitialState',
+        'Should render HomeLoadingView on HomeInitialState',
         (WidgetTester tester) async {
           when(() => mockHomeCubit.state).thenReturn(HomeInitialState());
 
@@ -46,7 +46,7 @@ void main() {
 
           await tester.pumpAndSettle();
 
-          expect(find.byType(HomeEmptyView), findsOneWidget);
+          expect(find.byType(HomeLoadingView), findsOneWidget);
         },
       );
 
@@ -71,7 +71,7 @@ void main() {
       );
 
       testWidgets(
-        'Should render HomeSuccessView on HomeSuccessState',
+        'Should render HomePopulatedView on HomeSuccessState',
         (WidgetTester tester) async {
           when(() => mockHomeCubit.state).thenReturn(HomeSuccessState());
 
@@ -86,7 +86,7 @@ void main() {
 
           await tester.pumpAndSettle();
 
-          expect(find.byType(HomeSuccessView), findsOneWidget);
+          expect(find.byType(HomePopulatedView), findsOneWidget);
         },
       );
 
