@@ -1,63 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:listinha/features/home/presentation/home_screen.dart';
-import 'package:listinha/features/home/presentation/widgets/widgets.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
+import 'package:bloc_test/bloc_test.dart';
+import 'package:mocktail/mocktail.dart';
 
 import 'package:listinha/features/home/presentation/bloc/bloc.dart';
+import 'package:listinha/features/home/presentation/widgets/widgets.dart';
+import 'package:listinha/features/home/presentation/home_screen.dart';
 
-import 'home_screen_test.mocks.dart';
+class MockHomeCubit extends MockCubit<HomeState> implements HomeCubit {}
 
-@GenerateMocks([HomeBloc])
+class HomeFakeState extends Fake implements HomeState {}
+
 void main() {
-  late MockHomeBloc bloc;
+  TestWidgetsFlutterBinding.ensureInitialized();
 
-  setUp(() {
-    bloc = MockHomeBloc();
+  late MockHomeCubit mockHomeCubit;
+
+  setUpAll(() {
+    registerFallbackValue(HomeFakeState());
   });
 
-  group(
-    'HomeScreen behavior in all HomeStatus',
-    () {
-      testWidgets(
-        'Should render HomeEmptyView when HomeStatus.initial',
-        (WidgetTester tester) async {
-          when(bloc.state).thenReturn(HomeState.initialState);
+  setUp(() {
+    mockHomeCubit = MockHomeCubit();
+  });
 
-          await tester.pumpWidget(
-            MaterialApp(
-              home: BlocProvider(
-                create: (context) => bloc,
-                child: const HomeScreen(),
-              ),
-            ),
-          );
+  testWidgets(
+    'Should render HomeEmptyView on HomeInitialState',
+    (WidgetTester tester) async {
+      when(() => mockHomeCubit.state).thenReturn(HomeInitialState());
 
-          expect(find.byType(HomeEmptyView), findsOneWidget);
-        },
+      await tester.pumpWidget(
+        BlocProvider<HomeCubit>(
+          create: (context) => mockHomeCubit,
+          child: const MaterialApp(
+            home: HomeScreen(),
+          ),
+        ),
       );
 
-      testWidgets(
-        'Should render HomeLoadingView when HomeStatus.loading',
-        (WidgetTester tester) async {},
+      await tester.pumpAndSettle();
+
+      expect(find.byType(HomeEmptyView), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Should render HomeLoadingView on HomeLoadingState',
+    (WidgetTester tester) async {
+      when(() => mockHomeCubit.state).thenReturn(HomeLoadingState());
+
+      await tester.pumpWidget(
+        BlocProvider<HomeCubit>(
+          create: (context) => mockHomeCubit,
+          child: const MaterialApp(
+            home: HomeScreen(),
+          ),
+        ),
       );
 
-      testWidgets(
-        'Should render HomePopulatedView when HomeStatus.success',
-        (WidgetTester tester) async {},
-      );
+      await tester.pumpAndSettle();
 
-      testWidgets(
-        'Should render HomeEmptyView when HomeStatus.success and ShoppingList is empty',
-        (WidgetTester tester) async {},
-      );
-
-      testWidgets(
-        'Should render HomeErrorView when HomeStatus.error',
-        (WidgetTester tester) async {},
-      );
+      expect(find.byType(HomeLoadingView), findsOneWidget);
     },
   );
 }
