@@ -19,7 +19,11 @@ class HomeLoadingView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            const Text('Aguarde...'),
+            Text(
+              'Aguarde...',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
           ],
         ),
       ),

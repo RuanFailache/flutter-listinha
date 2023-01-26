@@ -13,7 +13,12 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
-            if (state is HomeInitialState || state is HomeLoadingState) {
+            if (state is HomeInitialState) {
+              context.read<HomeCubit>().loadShoppingList();
+              return const HomeLoadingView();
+            }
+
+            if (state is HomeLoadingState) {
               return const HomeLoadingView();
             }
 
