@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:listinha/factories/home/home_presentation_factory.dart';
+import 'package:listinha/factories/home/home_application_factory.dart';
 
 void main() {
   runApp(const ListinhaApp());

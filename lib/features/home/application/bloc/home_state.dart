@@ -1,6 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:listinha/features/home/domain/dto/dto.dart';
 
-abstract class HomeState {}
+abstract class HomeState extends Equatable {
+  @override
+  List get props => [];
+}
 
 class HomeInitialState extends HomeState {}
 
