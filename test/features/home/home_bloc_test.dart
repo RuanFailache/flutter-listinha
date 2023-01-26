@@ -33,11 +33,29 @@ void main() {
     setUp: () => when(
       () => productRepository.findAll(),
     ).thenAnswer(
-      (invocation) async => [],
+      (_) async => [],
     ),
     expect: () => <HomeState>[
       HomeLoadingState(),
       HomeSuccessState(shoppingList: const []),
+    ],
+    verify: (_) => verify(
+      () => productRepository.findAll(),
+    ).called(1),
+  );
+
+  blocTest<HomeCubit, HomeState>(
+    'Should emits correct events on HomeCubit.loadShoppingList when the request fails',
+    build: () => sut,
+    act: (bloc) => bloc.loadShoppingList(),
+    setUp: () => when(
+      () => productRepository.findAll(),
+    ).thenThrow(
+      (_) => Exception(),
+    ),
+    expect: () => <HomeState>[
+      HomeLoadingState(),
+      HomeErrorState(),
     ],
     verify: (_) => verify(
       () => productRepository.findAll(),

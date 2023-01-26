@@ -13,7 +13,11 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> loadShoppingList() async {
     emit(HomeLoadingState());
-    final shoppingList = await productRepository.findAll();
-    emit(HomeSuccessState(shoppingList: shoppingList));
+    try {
+      final shoppingList = await productRepository.findAll();
+      emit(HomeSuccessState(shoppingList: shoppingList));
+    } catch (err) {
+      emit(HomeErrorState());
+    }
   }
 }
