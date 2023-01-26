@@ -5,6 +5,24 @@ class HomeLoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox.fromSize(
+              size: const Size(80, 80),
+              child: CircularProgressIndicator(
+                strokeWidth: 8,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text('Aguarde...'),
+          ],
+        ),
+      ),
+    );
   }
 }
