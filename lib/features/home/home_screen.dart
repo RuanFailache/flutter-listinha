@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/bloc.dart';
-import 'views/views.dart';
+import 'application/bloc/bloc.dart';
+import 'application/views/views.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
