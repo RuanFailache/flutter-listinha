@@ -14,7 +14,7 @@ class ListinhaApp extends StatelessWidget {
       title: 'Listinha',
       initialRoute: '/',
       routes: {
-        '/': makeHomePresentation,
+        '/': makeHomeApplication,
       },
     );
   }

@@ -4,9 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:listinha/features/home/presentation/bloc/bloc.dart';
-import 'package:listinha/features/home/presentation/views/views.dart';
-import 'package:listinha/features/home/presentation/home_screen.dart';
+import 'package:listinha/features/home/application/bloc/bloc.dart';
+import 'package:listinha/features/home/application/views/views.dart';
+import 'package:listinha/features/home/application/home_screen.dart';
 
 class MockHomeCubit extends MockCubit<HomeState> implements HomeCubit {}
 
