@@ -10,18 +10,24 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<HomeCubit, HomeState>(
-        builder: (context, state) {
-          if (state is HomeInitialState || state is HomeLoadingState) {
-            return const HomeLoadingView();
-          }
+      body: SafeArea(
+        child: BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            if (state is HomeInitialState || state is HomeLoadingState) {
+              return const HomeLoadingView();
+            }
 
-          if (state is HomeSuccessState) {
-            return const HomePopulatedView();
-          }
+            if (state is HomeSuccessState) {
+              if (state.shoppingList.isEmpty) {
+                return const HomeEmptyView();
+              }
 
-          return const HomeErrorView();
-        },
+              return const HomePopulatedView();
+            }
+
+            return const HomeErrorView();
+          },
+        ),
       ),
     );
   }

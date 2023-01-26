@@ -1,12 +1,12 @@
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
+import 'package:listinha/features/home/domain/dto/dto.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:listinha/features/home/application/bloc/bloc.dart';
-import 'package:listinha/features/home/application/views/views.dart';
-import 'package:listinha/features/home/application/home_screen.dart';
+import 'package:listinha/features/home/application/application.dart';
 
 class MockHomeCubit extends MockCubit<HomeState> implements HomeCubit {}
 
@@ -71,9 +71,23 @@ void main() {
       );
 
       testWidgets(
-        'Should render HomePopulatedView on HomeSuccessState',
+        'Should render HomePopulatedView on HomeSuccessState if HomeSuccessState.shoppingList is not empty',
         (WidgetTester tester) async {
-          when(() => mockHomeCubit.state).thenReturn(HomeSuccessState());
+          when(
+            () => mockHomeCubit.state,
+          ).thenReturn(
+            HomeSuccessState(
+              shoppingList: [
+                ProductDto(
+                  id: faker.guid.guid(),
+                  name: faker.food.cuisine(),
+                  price: 20.0,
+                  createdAt: DateTime.now(),
+                  isAddedToCart: false,
+                ),
+              ],
+            ),
+          );
 
           await tester.pumpWidget(
             BlocProvider<HomeCubit>(
@@ -87,6 +101,32 @@ void main() {
           await tester.pumpAndSettle();
 
           expect(find.byType(HomePopulatedView), findsOneWidget);
+        },
+      );
+
+      testWidgets(
+        'Should render HomeEmptyView on HomeSuccessState if HomeSuccessState.shoppingList is empty',
+        (WidgetTester tester) async {
+          when(
+            () => mockHomeCubit.state,
+          ).thenReturn(
+            HomeSuccessState(
+              shoppingList: [],
+            ),
+          );
+
+          await tester.pumpWidget(
+            BlocProvider<HomeCubit>(
+              create: (context) => mockHomeCubit,
+              child: const MaterialApp(
+                home: HomeScreen(),
+              ),
+            ),
+          );
+
+          await tester.pumpAndSettle();
+
+          expect(find.byType(HomeEmptyView), findsOneWidget);
         },
       );
 
