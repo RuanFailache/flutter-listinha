@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:listinha/features/home/domain/dto/dto.dart';
+import 'package:listinha/core/domain/domain.dart';
 
 abstract class HomeState extends Equatable {
   @override

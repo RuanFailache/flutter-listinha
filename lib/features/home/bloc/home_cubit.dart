@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:listinha/features/home/domain/repositories/repositories.dart';
+import 'package:listinha/core/domain/domain.dart';
 
 import 'bloc.dart';
 

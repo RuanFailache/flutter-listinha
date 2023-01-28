@@ -1,4 +1,4 @@
-import 'package:listinha/features/home/domain/domain.dart';
+import 'package:listinha/core/domain/domain.dart';
 
 class RemoteProductRepository implements ProductRepository {
   @override

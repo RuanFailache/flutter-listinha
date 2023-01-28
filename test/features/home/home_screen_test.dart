@@ -5,6 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:mocktail/mocktail.dart';
 
+import 'package:listinha/core/domain/domain.dart';
+
+import 'package:listinha/features/home/bloc/bloc.dart';
+import 'package:listinha/features/home/views/views.dart';
 import 'package:listinha/features/home/home.dart';
 
 class MockHomeCubit extends MockCubit<HomeState> implements HomeCubit {}
@@ -105,7 +109,7 @@ void main() {
         () => mockHomeCubit.state,
       ).thenReturn(
         HomeSuccessState(
-          shoppingList: [],
+          shoppingList: const [],
         ),
       );
 

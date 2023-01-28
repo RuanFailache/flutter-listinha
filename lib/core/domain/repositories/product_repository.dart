@@ -1,4 +1,4 @@
-import 'package:listinha/features/home/domain/domain.dart';
+import '../dto/dto.dart';
 
 abstract class ProductRepository {
   Future<List<ProductDto>> findAll();

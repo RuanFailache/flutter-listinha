@@ -2,8 +2,8 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
-import 'package:listinha/features/home/application/application.dart';
-import 'package:listinha/features/home/domain/repositories/repositories.dart';
+import 'package:listinha/core/domain/domain.dart';
+import 'package:listinha/features/home/bloc/bloc.dart';
 
 class MockProductRepository extends Mock implements ProductRepository {}
 
