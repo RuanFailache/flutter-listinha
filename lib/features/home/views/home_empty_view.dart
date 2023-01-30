@@ -5,6 +5,8 @@ class HomeEmptyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Center(
+      child: Text('Nenhum item adicionado à lista'),
+    );
   }
 }

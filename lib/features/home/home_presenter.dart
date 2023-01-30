@@ -2,12 +2,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:listinha/core/domain/domain.dart';
 
-import 'bloc.dart';
+import 'home_state.dart';
 
-class HomeCubit extends Cubit<HomeState> {
+class HomePresenter extends Cubit<HomeState> {
   final ProductRepository productRepository;
 
-  HomeCubit({
+  HomePresenter({
     required this.productRepository,
   }) : super(HomeInitialState());
 

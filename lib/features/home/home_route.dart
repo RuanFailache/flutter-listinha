@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:listinha/app/app.dart';
 import 'package:listinha/core/data/data.dart';
 
-import 'bloc/bloc.dart';
 import 'home.dart';
 
 class HomeRoute extends AppRoute {
@@ -14,9 +13,9 @@ class HomeRoute extends AppRoute {
   @override
   Widget screen(BuildContext context) {
     final productRepository = RemoteProductRepository();
-    final homeCubit = HomeCubit(productRepository: productRepository);
-    return BlocProvider<HomeCubit>(
-      create: (context) => homeCubit,
+    final homePresenter = HomePresenter(productRepository: productRepository);
+    return BlocProvider<HomePresenter>(
+      create: (context) => homePresenter,
       child: const HomeScreen(),
     );
   }

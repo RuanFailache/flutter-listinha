@@ -3,14 +3,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
 import 'package:listinha/core/domain/domain.dart';
-import 'package:listinha/features/home/bloc/bloc.dart';
+import 'package:listinha/features/home/home.dart';
 
 class MockProductRepository extends Mock implements ProductRepository {}
 
 class HomeFakeState extends Fake implements HomeState {}
 
 void main() {
-  late HomeCubit sut;
+  late HomePresenter sut;
   late MockProductRepository productRepository;
 
   setUpAll(() {
@@ -19,14 +19,14 @@ void main() {
 
   setUp(() {
     productRepository = MockProductRepository();
-    sut = HomeCubit(productRepository: productRepository);
+    sut = HomePresenter(productRepository: productRepository);
   });
 
   test('Should load with correct initial value', () {
     expect(sut.state, isInstanceOf<HomeInitialState>());
   });
 
-  blocTest<HomeCubit, HomeState>(
+  blocTest<HomePresenter, HomeState>(
     'Should emits correct events on HomeCubit.loadShoppingList when the request is successful',
     build: () => sut,
     act: (bloc) => bloc.loadShoppingList(),
@@ -44,7 +44,7 @@ void main() {
     ).called(1),
   );
 
-  blocTest<HomeCubit, HomeState>(
+  blocTest<HomePresenter, HomeState>(
     'Should emits correct events on HomeCubit.loadShoppingList when the request fails',
     build: () => sut,
     act: (bloc) => bloc.loadShoppingList(),

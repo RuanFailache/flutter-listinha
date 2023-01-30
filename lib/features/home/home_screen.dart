@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'bloc/bloc.dart';
 import 'views/views.dart';
+import 'home.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -10,11 +10,21 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: BlocBuilder<HomePresenter, HomeState>(
+        builder: (context, state) {
+          return state is HomeSuccessState
+              ? FloatingActionButton(
+                  onPressed: () {},
+                  child: const Icon(Icons.add),
+                )
+              : Container();
+        },
+      ),
       body: SafeArea(
-        child: BlocBuilder<HomeCubit, HomeState>(
+        child: BlocBuilder<HomePresenter, HomeState>(
           builder: (context, state) {
             if (state is HomeInitialState) {
-              context.read<HomeCubit>().loadShoppingList();
+              context.read<HomePresenter>().loadShoppingList();
               return const HomeLoadingView();
             }
 

@@ -7,11 +7,10 @@ import 'package:mocktail/mocktail.dart';
 
 import 'package:listinha/core/domain/domain.dart';
 
-import 'package:listinha/features/home/bloc/bloc.dart';
 import 'package:listinha/features/home/views/views.dart';
 import 'package:listinha/features/home/home.dart';
 
-class MockHomeCubit extends MockCubit<HomeState> implements HomeCubit {}
+class MockHomeCubit extends MockCubit<HomeState> implements HomePresenter {}
 
 class HomeFakeState extends Fake implements HomeState {}
 
@@ -28,11 +27,12 @@ void main() {
 
   setUp(() {
     mockHomeCubit = MockHomeCubit();
+    when(() => mockHomeCubit.loadShoppingList()).thenAnswer((_) async {});
   });
 
   Future<void> loadPage(WidgetTester tester) async {
     await tester.pumpWidget(
-      BlocProvider<HomeCubit>(
+      BlocProvider<HomePresenter>(
         create: (context) => mockHomeCubit,
         child: const MaterialApp(
           home: HomeScreen(),
@@ -45,7 +45,6 @@ void main() {
   testWidgets(
     'Should call HomeCubit.loadShoppingList on HomeInitialState',
     (WidgetTester tester) async {
-      when(() => mockHomeCubit.loadShoppingList()).thenAnswer((_) async {});
       when(() => mockHomeCubit.state).thenReturn(HomeInitialState());
 
       await loadPage(tester);
@@ -57,12 +56,22 @@ void main() {
   testWidgets(
     'Should render HomeLoadingView on HomeInitialState',
     (WidgetTester tester) async {
-      when(() => mockHomeCubit.loadShoppingList()).thenAnswer((_) async {});
       when(() => mockHomeCubit.state).thenReturn(HomeInitialState());
 
       await loadPage(tester);
 
       expect(find.byType(HomeLoadingView), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Shouldn\'t render FloatingActionButton on HomeInitialState',
+    (WidgetTester tester) async {
+      when(() => mockHomeCubit.state).thenReturn(HomeInitialState());
+
+      await loadPage(tester);
+
+      expect(find.byType(FloatingActionButton), findsNothing);
     },
   );
 
@@ -74,6 +83,32 @@ void main() {
       await loadPage(tester);
 
       expect(find.byType(HomeLoadingView), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Shouldn\'t render FloatingActionButton on HomeLoadingState',
+    (WidgetTester tester) async {
+      when(() => mockHomeCubit.state).thenReturn(HomeLoadingState());
+
+      await loadPage(tester);
+
+      expect(find.byType(FloatingActionButton), findsNothing);
+    },
+  );
+
+  testWidgets(
+    'Should render FloatingActionButton on HomeSuccessState',
+    (WidgetTester tester) async {
+      when(() => mockHomeCubit.state).thenReturn(
+        HomeSuccessState(
+          shoppingList: const [],
+        ),
+      );
+
+      await loadPage(tester);
+
+      expect(find.byType(FloatingActionButton), findsOneWidget);
     },
   );
 
@@ -127,6 +162,17 @@ void main() {
       await loadPage(tester);
 
       expect(find.byType(HomeErrorView), findsOneWidget);
+    },
+  );
+
+  testWidgets(
+    'Shouldn\'t render FloatingActionButton on HomeErrorState',
+    (WidgetTester tester) async {
+      when(() => mockHomeCubit.state).thenReturn(HomeErrorState());
+
+      await loadPage(tester);
+
+      expect(find.byType(FloatingActionButton), findsNothing);
     },
   );
 
